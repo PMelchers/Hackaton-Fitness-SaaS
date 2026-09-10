@@ -839,15 +839,6 @@ input:where([type='file']):focus {
   line-height: 1.5;
 }
 
-.leading-\[65px\] {
-  line-height: 65px;
-}
-
 .tracking-normal {
   letter-spacing: 0em;
-}
-
-.text-red-950 {
-  --tw-text-opacity: 1;
-  color: rgb(69 10 10 / var(--tw-text-opacity, 1));
 }
