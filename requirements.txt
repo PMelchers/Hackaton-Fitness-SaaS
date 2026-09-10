@@ -1,1 +1,5 @@
 django
+django-tailwind
+cookiecutter
+honcho
+reload
