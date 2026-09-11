@@ -2,7 +2,12 @@
 {% block content %}
 <div>
     <p class="font-extrabold text-xl">Header</p>
-    <p>test</p>    
+    <p>test</p>
+
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Log Uit</button>
+    </form>
 </div>
 
 {% endblock content %}
