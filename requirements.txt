@@ -1,5 +1,6 @@
 django
 django-tailwind
+django_browser_reload
 cookiecutter
 honcho
 django-browser-reload

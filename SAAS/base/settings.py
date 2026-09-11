@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,9 +28,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# way to make it work on windows
+if os.name == "nt":
+    NPM_BIN_PATH = Path(os.getenv("ProgramFiles")) / "nodejs" / "npm"
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',

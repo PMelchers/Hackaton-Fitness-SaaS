@@ -4,9 +4,10 @@ from pathlib import Path
 BASE_DIR = Path(__file__).parent
 MANAGE_LOCATION = BASE_DIR / "SAAS" / "manage.py"
 VENV_DIR = BASE_DIR / "venv"
-VENV_PYTHON_WINDOWS = VENV_DIR / "Script" / "python.exe"
+VENV_PYTHON_WINDOWS = VENV_DIR / "Scripts" / "python.exe"
 VENV_PYTHON_LINUX = VENV_DIR / "bin" / "python"
-REQS_LOCATION = VENV_DIR / "lib" / "python3.14" / "site-packages"
+REQS_LOCATION_LIN = VENV_DIR / "lib" / "python3.14" / "site-packages"
+REQS_LOCATION_WIN = VENV_DIR / "Lib" / "site-packages"
 NPM_DIR = MANAGE_LOCATION.parent / "theme" / "static_src" / "node_modules"
 
 if not VENV_DIR.exists():
@@ -15,7 +16,12 @@ if not VENV_DIR.exists():
     print("created venv")
 
 requirements = open("requirements.txt").read().split('\n')
-presentRequirements = [res.stem for res in REQS_LOCATION.iterdir() if res.is_dir()]
+
+selReqsLoc = REQS_LOCATION_LIN
+if not REQS_LOCATION_LIN.exists():
+    selReqsLoc = REQS_LOCATION_WIN
+
+presentRequirements = [res.stem for res in selReqsLoc.iterdir() if res.is_dir()]
 sel_venv = None
 
 if VENV_PYTHON_WINDOWS.exists(): 
@@ -32,7 +38,11 @@ if not set(requirements).issubset(presentRequirements):
     print(f"requirements not satisfied")
 
     if sel_venv is not None:
-        pip_loc = sel_venv.parent / "pip"
+        pip_loc = sel_venv.parent / "pip.exe"
+
+        if not sel_venv is VENV_PYTHON_WINDOWS:
+            pip_loc = sel_venv.parent / "pip"
+
         subprocess.run([sel_venv, pip_loc, "install", "-r", "requirements.txt"])
         print("done installing requirements")
 
