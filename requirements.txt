@@ -2,4 +2,4 @@ django
 django-tailwind
 cookiecutter
 honcho
-reload
+django-browser-reload
