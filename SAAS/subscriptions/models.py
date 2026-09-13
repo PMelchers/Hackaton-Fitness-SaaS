@@ -1,4 +1,13 @@
 from django.db import models
 
 # Create your models here.
-class Subscription(models.Model)
+class SubscriptionType(models.Model):
+    name = models.CharField()
+    price = models.FloatField()
+    access = models.IntegerField()
+
+class Subscription(models.Model):
+    name = models.CharField()
+    type = models.ForeignKey(SubscriptionType, on_delete=models.CASCADE, related_name='type', null=True)
+    cources_allowed = models.BooleanField(default=False)
+    saldo = models.IntegerField(default=0)
