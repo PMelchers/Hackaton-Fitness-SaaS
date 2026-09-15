@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="min-h-screen bg-white">
+    <header class="border-2 border-black bg-black px-4 py-2">&nbsp;</header>
+
+    <div class="border-2 border-t-0 border-black p-4 space-y-4">
+        <a href="{% url 'home' %}" class="inline-block border-2 border-black px-4 py-1 font-semibold">terug</a>
+
+        <p>kies een abonnement</p>
+
+        <form method="post" class="space-y-3" action="abonnement/aanvragen/">
+            {% csrf_token %}
+            <label class="flex items-center gap-3">
+                <input type="radio" name="plan" value="1" class="h-5 w-5 border-2 border-black" {% if selected_plan == "1x per week" %}checked{% endif %}>
+                <span>1x per week</span>
+            </label>
+            <label class="flex items-center gap-3">
+                <input type="radio" name="plan" value="2" class="h-5 w-5 border-2 border-black" {% if selected_plan == "2x per week" %}checked{% endif %}>
+                <span>2x per week</span>
+            </label>
+            <label class="flex items-center gap-3">
+                <input type="radio" name="plan" value="3" class="h-5 w-5 border-2 border-black" {% if selected_plan == "onbeperkt" %}checked{% endif %}>
+                <span>onbeperkt</span>
+            </label>
+
+            <p>ik wil een addendum op mijn abonnement</p>
+            <label class="flex items-center gap-3">
+                <input type="checkbox" name="addendum" class="h-5 w-5 border-2 border-black" {% if addendum %}checked{% endif %}>
+            </label>
+
+            <button type="submit" class="block border-2 border-black px-4 py-1 font-semibold">bevestigen</button>
+        </form>
+    </div>
+</div>
+{% endblock content %}
