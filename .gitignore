@@ -3,3 +3,7 @@ __pycache__
 *.pcy
 migrations
 style.css
+SAAS/db.sqlite3
+.gitignore
+SAAS/base/settings.py
+SAAS/db.sqlite3
