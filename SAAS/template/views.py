@@ -1,7 +1,19 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
+from courses.models import Course
+
 
 @login_required
 def home(request):
-    return render(request, "template.html")
+    customer = getattr(request.user, "customer", None)
+    courses = Course.objects.select_related("type").all()
+    trainer_courses = courses.filter(type__name__iexact="Persoonlijke trainer")
+    regular_courses = courses.exclude(pk__in=trainer_courses.values("pk"))
+
+    context = {
+        "customer": customer,
+        "regular_courses": regular_courses,
+        "trainer_courses": trainer_courses,
+    }
+    return render(request, "template.html", context)

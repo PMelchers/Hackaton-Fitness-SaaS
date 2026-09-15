@@ -30,7 +30,7 @@ ALLOWED_HOSTS = []
 
 # way to make it work on windows
 if os.name == "nt":
-    NPM_BIN_PATH = Path(os.getenv("ProgramFiles")) / "nodejs" / "npm"
+    NPM_BIN_PATH = Path(os.getenv("ProgramFiles")) / "nodejs" / "npm.cmd"
 
 # Application definition
 INSTALLED_APPS = [
