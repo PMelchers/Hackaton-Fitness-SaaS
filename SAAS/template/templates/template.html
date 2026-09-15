@@ -17,7 +17,7 @@
             {% if customer %}
             <button type="button" class="block border-2 border-black px-4 py-1 font-semibold">abonnement afzeggen</button>
             {% else %}
-            <button type="button" class="block border-2 border-black px-4 py-1 font-semibold">abonnement aanvragen</button>
+            <a href="{% url 'subscription_request' %}" class="inline-block border-2 border-black px-4 py-1 font-semibold">abonnement aanvragen</a>
             {% endif %}
         </div>
 
