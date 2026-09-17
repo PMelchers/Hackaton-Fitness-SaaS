@@ -149,3 +149,5 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
