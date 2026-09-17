@@ -9,5 +9,5 @@ class CourseType(models.Model):
 class Course(models.Model):
     name = models.CharField()
     type = models.OneToOneField(CourseType, on_delete=models.CASCADE, related_name='type')
-    customers = models.ManyToManyField(Customer)
+    customers = models.ManyToManyField(Customer, blank=True)
     availability = models.IntegerField(default=10)

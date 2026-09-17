@@ -22,5 +22,6 @@ urlpatterns = [
     path('', include("template.urls")),
     path('', include("accounts.urls")),
     path('', include("subscriptions.urls")),
+    path('', include("courses.urls")),
     path("__reload__/", include("django_browser_reload.urls")),
 ]
