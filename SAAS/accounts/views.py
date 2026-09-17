@@ -6,6 +6,8 @@ from django.views.decorators.http import require_POST
 
 from .forms import LoginForm, RegisterForm
 from .models import UserInfo
+from customer.models import Customer
+from subscriptions.models import Subscription
 
 User = get_user_model()
 
@@ -49,6 +51,11 @@ def register_view(request):
             street_name=data["street_name"],
             house_number=data["house_number"],
             postcode=data["postcode"],
+        )
+
+        Customer.objects.create(
+            user=user,
+            subscription=Subscription.objects.create()
         )
         login(request, user, backend="accounts.backends.EmailBackend")
         return redirect("home")

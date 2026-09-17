@@ -1,41 +1,40 @@
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
-
-from customer.models import Customer
+from django.core.exceptions import PermissionDenied
 
 from .models import Subscription, SubscriptionType
+from customer.models import Customer
 
-PLAN_ACCESS = {
-    "1x per week": 1,
-    "2x per week": 2,
-    "onbeperkt": -1,
-}
-
-
+# Create your views here.
 @login_required
 def request_subscription(request):
-    if request.method == "POST":
-        plan_name = request.POST.get("plan", "2x per week")
-        addendum = request.POST.get("addendum") == "on"
+    if request.method == "GET":
+        return render(request, "request.html")
+    elif request.method == "POST":
+        user = request.user
+        message = ""
+        if user:
+            customer = Customer.objects.get(user=user)
+            chosen_subscription = SubscriptionType.objects.get(id=request.POST["plan"])
+            customer.subscription.type = chosen_subscription
+            message = f"Je hebt nu abonnement {chosen_subscription.name}"
 
-        subscription_type, _ = SubscriptionType.objects.get_or_create(
-            name=plan_name,
-            defaults={"price": 0, "access": PLAN_ACCESS.get(plan_name, 0)},
-        )
-        subscription = Subscription.objects.create(
-            name=f"{plan_name} abonnement",
-            type=subscription_type,
-            cources_allowed=addendum,
-        )
-
-        customer = getattr(request.user, "customer", None)
-        if customer:
-            customer.subscription = subscription
+            if request.POST.get("addendum"):
+                customer.subscription.cources_allowed = True
+                message += " met cursussen"
+        
+            customer.subscription.save()
             customer.save()
-        else:
-            Customer.objects.create(user=request.user, subscription=subscription)
+        
+        return render(request, "request.html", context={"message": message})
 
-        return redirect("home")
+@login_required
+def reset_subscription(request):
+    user = request.user
 
-    context = {"selected_plan": "2x per week", "addendum": True}
-    return render(request, "subscriptions/request.html", context)
+    if user:
+        customer = Customer.objects.get(user=user)
+        customer.subscription = Subscription.objects.create()
+        customer.subscription.save()
+
+    return redirect("subscription_request")
