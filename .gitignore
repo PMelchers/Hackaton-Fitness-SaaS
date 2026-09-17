@@ -1,7 +1,6 @@
 venv
 __pycache__
 *.pcy
-migrations
 style.css
 SAAS/db.sqlite3
 .gitignore

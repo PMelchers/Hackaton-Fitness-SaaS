@@ -7,6 +7,14 @@
     </header>
 
     <div class="border-2 border-t-0 border-black p-4 space-y-3">
+        {% if messages %}
+        <ul class="space-y-1">
+            {% for message in messages %}
+            <li class="border-2 border-black px-4 py-1">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
         {% if customer %}
         <p>U heeft<br>abonnement {{ customer.subscription.type.name|default:customer.subscription.name }}</p>
         {% else %}
@@ -40,7 +48,23 @@
                         <p class="text-sm text-gray-600">{{ course.type.description }}</p>
                         <p class="border-b border-dashed border-black">&nbsp;</p>
                         <p>{{ course.availability }} plaatsen over</p>
-                        <button type="button" class="block border-2 border-black px-4 py-1 font-semibold">inschrijven</button>
+                        {% if course.id in enrolled_ids %}
+                        <form method="post" action="{% url 'course_withdraw' course.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="block border-2 border-black px-4 py-1 font-semibold">uitschrijven</button>
+                        </form>
+                        {% elif not customer %}
+                        <p class="text-sm text-gray-600">abonnement vereist</p>
+                        {% elif not customer.subscription.cources_allowed %}
+                        <p class="text-sm text-gray-600">addendum vereist</p>
+                        {% elif course.availability <= 0 %}
+                        <p class="text-sm text-gray-600">vol</p>
+                        {% else %}
+                        <form method="post" action="{% url 'course_enroll' course.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="block border-2 border-black px-4 py-1 font-semibold">inschrijven</button>
+                        </form>
+                        {% endif %}
                     </div>
                     {% empty %}
                     <p class="p-4 text-sm text-gray-500">Geen cursussen beschikbaar.</p>
@@ -54,7 +78,23 @@
                         <p class="text-sm text-gray-600">{{ course.type.description }}</p>
                         <p class="border-b border-dashed border-black">&nbsp;</p>
                         <p>{{ course.availability }} plaatsen over</p>
-                        <button type="button" class="block border-2 border-black px-4 py-1 font-semibold">inschrijven</button>
+                        {% if course.id in enrolled_ids %}
+                        <form method="post" action="{% url 'course_withdraw' course.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="block border-2 border-black px-4 py-1 font-semibold">uitschrijven</button>
+                        </form>
+                        {% elif not customer %}
+                        <p class="text-sm text-gray-600">abonnement vereist</p>
+                        {% elif not customer.subscription.cources_allowed %}
+                        <p class="text-sm text-gray-600">addendum vereist</p>
+                        {% elif course.availability <= 0 %}
+                        <p class="text-sm text-gray-600">vol</p>
+                        {% else %}
+                        <form method="post" action="{% url 'course_enroll' course.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="block border-2 border-black px-4 py-1 font-semibold">inschrijven</button>
+                        </form>
+                        {% endif %}
                     </div>
                     {% empty %}
                     <p class="p-4 text-sm text-gray-500">Geen persoonlijke trainers beschikbaar.</p>
