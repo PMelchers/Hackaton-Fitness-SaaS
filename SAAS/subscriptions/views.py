@@ -35,6 +35,6 @@ def reset_subscription(request):
     if user:
         customer = Customer.objects.get(user=user)
         customer.subscription = Subscription.objects.create()
-        customer.subscription.save()
+        customer.save()
 
     return redirect("subscription_request")

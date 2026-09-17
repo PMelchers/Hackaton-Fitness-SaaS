@@ -16,7 +16,7 @@
         {% endif %}
 
         {% if customer %}
-        <p>U heeft<br>abonnement {{ customer.subscription.type.name|default:customer.subscription.name }}</p>
+        <p>U heeft<br>abonnement {{ customer.subscription.type.name|default:"geen abonnement gekozen" }}</p>
         {% else %}
         <p>U heeft<br>geen abonnement</p>
         {% endif %}
